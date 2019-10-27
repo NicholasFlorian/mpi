@@ -327,13 +327,13 @@ void moveBalls(int lowerBound, int upperBound) {
     }
 
     // mark all others before sending
-    /*for(int i = 0; i < lowerBound; i++)
+    for(int i = 0; i < lowerBound; i++)
         for(int j = 0; j < 4; j++)
             BallArray[i][j] = ERRONEOUS;
 
     for(int i = upperBound; i < POPSIZE; i++)
         for(int j = 0; j < 4; j++)
-            BallArray[i][j] = ERRONEOUS;*/
+            BallArray[i][j] = ERRONEOUS;
 }
 
 void PRIMARY_updateBallArray(float data[POPSIZE][4]){
