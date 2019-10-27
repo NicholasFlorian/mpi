@@ -336,11 +336,12 @@ void moveBalls(int lowerBound, int upperBound) {
             BallArray[i][j] = ERRONEOUS;*/
 }
 
-void PRIMARY_updateBallArray(float* data){
+void PRIMARY_updateBallArray(float data[POPSIZE][4]){
 
     for(int i = 0; i < POPSIZE; i++)
-        for(int j = 0; j < 4; i++)
-            return;
+        for(int j = 0; j < 4; j++)
+            if(data[i][j] != ERRONEOUS)
+                BallArray[i][j] = data[i][j];
 }
 
 int main(int argc, char *argv[]) {
@@ -429,17 +430,22 @@ int main(int argc, char *argv[]) {
         // render ncurses on process 0
         if(currentRank == 0){
 
-            ///float tempBallArray[POPSIZE][4];
             // receive data from others
-            for(int j = 1; j < commSize; j++)
+            for(int j = 1; j < commSize; j++){
+                
+                float tempBallArray[POPSIZE][4];
+                
                 MPI_Recv(
-                    &BallArray, 
+                    &tempBallArray, 
                     POPSIZE * 4, 
                     MPI_FLOAT, 
                     j, 
                     PHYS_MPI_SEND_MASTER, 
                     MPI_COMM_WORLD, 
                     MPI_STATUS_IGNORE);
+
+                PRIMARY_updateBallArray(tempBallArray);
+            }
             
             // draw the balls
             Lock = drawBalls();
